@@ -1,4 +1,3 @@
-# =========================
 # app.py
 # =========================
 
@@ -37,11 +36,20 @@ app.add_middleware(
 )
 
 # -------------------------
-# Model load
+# Model variables
 # -------------------------
-print(f"Loading model: {MODEL_NAME}")
-model = YOLO(MODEL_NAME)
-MODEL_CLASS_NAMES = model.names  # dict: id -> class_name
+model = None
+MODEL_CLASS_NAMES = {}
+
+# -------------------------
+# Startup event
+# -------------------------
+@app.on_event("startup")
+def load_model():
+    global model, MODEL_CLASS_NAMES
+    print(f"Loading model: {MODEL_NAME}")
+    model = YOLO(MODEL_NAME)
+    MODEL_CLASS_NAMES = model.names
 
 # -------------------------
 # Helper functions
@@ -263,3 +271,14 @@ async def segment_image(
             "error": str(e),
             "processing_time_ms": round((time.time() - request_start_time) * 1000, 2)
         }
+
+# -------------------------
+# Run server
+# -------------------------
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "app:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000))
+    )
