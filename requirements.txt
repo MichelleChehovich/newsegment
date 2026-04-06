@@ -1,14 +1,12 @@
-fastapi==0.135.2
-uvicorn==0.42.0
-python-multipart==0.0.22
-
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.16
 numpy==2.0.2
 pillow==11.3.0
 opencv-python-headless==4.13.0.92
 
-ultralytics==8.4.33
-
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.10.0+cpu
 torchvision==0.25.0+cpu
-torchaudio==2.10.0+cpu
---extra-index-url https://download.pytorch.org/whl/cpu
+
+ultralytics==8.4.33
